@@ -1,0 +1,35 @@
+---
+title: "eda"
+format: html
+---
+
+```{r}
+library(conflicted)
+library(readr)
+library(here)
+library(dplyr)
+library(ggplot2)
+```
+
+```{r}
+mira_df <- read_csv(here("data_raw", "Omi_Ceti.csv"), col_types = "dd")
+summary(mira_df)
+```
+
+```{r}
+#| fig-width: 10
+#| fig-height: 4.5
+#| message: false
+mira_df |> 
+    head(4000) |> 
+    ggplot() +
+    aes(x = day, y = magnitude) +
+    geom_point(colour = "blue", alpha = 0.5) +
+    geom_rug(sides = "b", colour = "blue") +
+    scale_y_reverse() +
+    labs(x = "Time (days)", y = "Magnitude") +
+    theme_classic()
+
+ggsave(here("figures", "mira_magn.jpg"))
+```
+
